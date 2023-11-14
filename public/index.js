@@ -1,14 +1,17 @@
-const form = document.querySelector('form');
-const setSubmitListener = (form) => {
-  form.addEventListener('submit', (event) => {
+const app = document.querySelector('#app');
+const profileElm = document.querySelector('#profile');
+const formElm = document.querySelector('#form');
+
+const setSubmitListener = (app) => {
+  app.addEventListener('submit', (event) => {
     event.preventDefault();
+    const form = event.target;
 
     // empty target and show a loading animation there
-    const target = fetchOptions.target;
-    target.innerHTML = '';
-    target.classList.add('loading');
+    profileElm.innerHTML = '';
+    profileElm.classList.add('loading');
 
-    const data = new FormData(event.target);
+    const data = new FormData(form);
 
     // calling fetch async
     fetch('/api/profile', {
@@ -18,20 +21,13 @@ const setSubmitListener = (form) => {
     })
     .then((response) => response.json())
     .then(async (json) => {
-      // data was posted successfully to server so we can now update the page
-      // since we already have access to data, we don't need to fetch it from server again
-      updateDOM(target, data.get('name'));
+      console.log(json);
+      render(json);
     }).catch(function(err) {
       console.error(`Error: ${err}`);
     });
   });
 }
-
-// updates DOM with data returned from server
-const updateDOM = (element, name) => {
-  element.innerHTML = name;
-  element.classList.remove('loading');
-};
 
 const fetchOptions = {
   endpoint: '/api/profile',
@@ -43,7 +39,6 @@ const fetchOptions = {
   target: document.querySelector('#name')
 };
 
-// calling fetch sync
 const fetchData = async (options) => {
   const response = await fetch(options.endpoint, {
     method: options.method,
@@ -53,12 +48,31 @@ const fetchData = async (options) => {
   return data;
 };
 
+async function fetchTemplate(path) {
+  const response = await fetch(path);
+  const responseText = await response.text();
+  return responseText;
+}
+
+async function render(data) {
+  console.log({data});
+  const templateForm = await fetchTemplate('templates/form.hbs');
+  const templateProfile = await fetchTemplate('templates/profile.hbs');
+  const compiledProfile = Handlebars.compile(templateProfile);
+  const compiledForm = Handlebars.compile(templateForm);
+  const htmlForm = compiledForm(data);
+  const htmlProfile = compiledProfile(data);
+  formElm.innerHTML = htmlForm;
+  profileElm.innerHTML = htmlProfile;
+  profileElm.classList.remove('loading');
+}
+
+profileElm.classList.add('loading');
+
 // sends data to server once form submits
-setSubmitListener(form);
+setSubmitListener(app);
 
 // fetches data from server
 const data = await fetchData(fetchOptions);
 
-// update page
-updateDOM(fetchOptions.target, data[0].name);
-
+render(data);

@@ -1,0 +1,10 @@
+<h2>Form</h2>
+<form method="POST" action="api/profile">
+  {{#each this}}
+    <div class="row">
+      <label>{{label}}:</label>
+      <input required name="{{name}}" {{#if value}} value="{{value}}" {{/if}}>
+    </div>
+  {{/each}}
+  <button>Submit</button>
+</form>
