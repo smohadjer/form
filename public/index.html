@@ -5,16 +5,17 @@
         <title>Form with API</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="style.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
     </head>
     <body>
-        <p>My name is: <span id="name"></span></p>
+        <p>My name is: <span class="loading" id="name"></span></p>
         <form method="POST" action="api/profile">
             <label>Name:</label>
             <input name="name" required>
             <button>Submit</button>
         </form>
-        <script src="index.js"></script>
+        <script type="module" src="index.js"></script>
         <p><a href="https://github.com/smohadjer/form">https://github.com/smohadjer/form</a></p>
     </body>
 </html>

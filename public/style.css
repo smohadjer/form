@@ -1,0 +1,17 @@
+.loading::before {
+  display: inline-block;
+  vertical-align: middle;
+  content: ' ';
+  width: 0.75em;
+  height: 0.75em;
+  border: 0.1em solid #999;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: loadingspin 1s linear infinite;
+  }
+
+  @keyframes loadingspin {
+  100% {
+      transform: rotate(360deg)
+  }
+}
