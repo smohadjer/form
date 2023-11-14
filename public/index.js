@@ -6,12 +6,14 @@ const setSubmitListener = (app) => {
   app.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.target;
+    console.log(form);
 
     // empty target and show a loading animation there
     profileElm.innerHTML = '';
     profileElm.classList.add('loading');
 
     const data = new FormData(form);
+    console.log(JSON.stringify(Object.fromEntries(data)));
 
     // calling fetch async
     fetch('/api/profile', {

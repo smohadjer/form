@@ -5,32 +5,22 @@ dotenv.config();
 
 const client = new MongoClient(process.env.db_uri);
 const insertProfile = async (profile, req) => {
-  console.log(req.body);
-  Object.entries(req.body).forEach(async (item) => {
-    console.log(item);
-    const query = {'name': item[0] };
+  for (const property in req.body) {
+    console.log(property, ':', req.body[property]);
+    const query = {
+      'name': property
+    };
     const updateDoc = {
       $set: {
-        value: item[1]
+        value: req.body[property]
       }
     };
-    const options = { upsert: true };
+    const options = { upsert: false };
     await profile.updateOne(query, updateDoc, options);
-  });
+  }
 
   const data = await profile.find().toArray();
-  console.log(data);
   return data;
-  /*
-
-  const options = { upsert: true };
-  const result = await profile.updateOne({}, updateDoc, options);
-  if (result.upsertedId || result.matchedCount) {
-    return await profile.findOne();
-  } else {
-    return;
-  }
-  */
 
 };
 
