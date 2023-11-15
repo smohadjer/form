@@ -93,9 +93,9 @@ const data = await fetchData(fetchOptions);
 // sort fields for better display on page
 const customSortOrder = ['firstname', 'lastname', 'age'];
 data.sort((a, b) => {
-  const indexA = sortOrder.indexOf(a.name);
-  const indexB = sortOrder.indexOf(b.name);
-  return indexA - indexB
+  const indexA = customSortOrder.indexOf(a.name);
+  const indexB = customSortOrder.indexOf(b.name);
+  return indexA - indexB;
 })
 
 console.log(data);
