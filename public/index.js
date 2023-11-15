@@ -90,6 +90,14 @@ setSubmitListener(app);
 // fetches data from server
 const data = await fetchData(fetchOptions);
 
+// sort fields for better display on page
+const customSortOrder = ['firstname', 'lastname', 'age'];
+data.sort((a, b) => {
+  const indexA = sortOrder.indexOf(a.name);
+  const indexB = sortOrder.indexOf(b.name);
+  return indexA - indexB
+})
+
 console.log(data);
 
 renderForm(data);
