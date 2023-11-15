@@ -24,7 +24,7 @@
   margin: 0 0 1em;
 }
 
-#app {
+body > div {
   display: flex;
 }
 
