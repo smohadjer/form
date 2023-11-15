@@ -6,7 +6,6 @@ const setSubmitListener = (app) => {
   app.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.target;
-    console.log(form);
 
     // empty target and show a loading animation there
     profileElm.innerHTML = '';
@@ -24,7 +23,7 @@ const setSubmitListener = (app) => {
     .then((response) => response.json())
     .then(async (json) => {
       console.log(json);
-      render(json);
+      renderProfile(json);
     }).catch(function(err) {
       console.error(`Error: ${err}`);
     });
@@ -56,17 +55,27 @@ async function fetchTemplate(path) {
   return responseText;
 }
 
-async function render(data) {
+async function fetchJson(path) {
+  const response = await fetch(path);
+  const responseJson = await response.json();
+  return responseJson;
+}
+
+async function renderProfile(data) {
   console.log({data});
-  const templateForm = await fetchTemplate('templates/form.hbs');
   const templateProfile = await fetchTemplate('templates/profile.hbs');
   const compiledProfile = Handlebars.compile(templateProfile);
-  const compiledForm = Handlebars.compile(templateForm);
-  const htmlForm = compiledForm(data);
   const htmlProfile = compiledProfile(data);
-  formElm.innerHTML = htmlForm;
   profileElm.innerHTML = htmlProfile;
   profileElm.classList.remove('loading');
+}
+
+async function renderForm() {
+  const template = await fetchTemplate('templates/form.hbs');
+  const json = await fetchJson('form.json');
+  const compiledTemplate = Handlebars.compile(template);
+  const html = compiledTemplate(json);
+  formElm.innerHTML = html;
 }
 
 profileElm.classList.add('loading');
@@ -77,4 +86,5 @@ setSubmitListener(app);
 // fetches data from server
 const data = await fetchData(fetchOptions);
 
-render(data);
+renderForm();
+renderProfile(data)

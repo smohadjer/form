@@ -9,6 +9,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
     </head>
     <body>
+        <h1>Circle of Data</h1>
+        <h2>This is an example of transfering data between browser and server using JavaScript without any frameworks. When this page loads, JS fetches this <a href="form.json">json</a> which contains information to render the form. JS then feeds json data into this handlebars <a href="templates/form.hbs">template</a> to generate HTML for the form which is then added to the page. When form is submitted, JS posts form data to a Node.js endpoint which writes data to MongoDB database. Data in database is fetched by JS in browser calling this <a href="api/profile.js">endpoint</a> and displaying results on the page.</h2>
         <div id="app">
             <div id="form"></div>
             <div id="profile"></div>

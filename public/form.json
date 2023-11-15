@@ -1,0 +1,21 @@
+{
+  "method": "POST",
+  "action": "api/profile",
+  "fields": [
+    {
+      "name": "firstname",
+      "label": "First Name",
+      "required": true
+    },
+    {
+      "name": "lastname",
+      "label": "Last Name",
+      "required": false
+    },
+    {
+      "name": "age",
+      "label": "Age",
+      "required": false
+    }
+  ]
+}
