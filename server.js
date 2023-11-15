@@ -9,7 +9,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
 app.use(express.json()); // parse application/json
 
-app.post('/api/prfile', (req, res) => {
+app.post('/api/profile', (req, res) => {
   profile(req, res);
 });
 

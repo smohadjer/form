@@ -12,7 +12,6 @@ const setSubmitListener = (app) => {
     profileElm.classList.add('loading');
 
     const data = new FormData(form);
-    console.log(JSON.stringify(Object.fromEntries(data)));
 
     // calling fetch async
     fetch('/api/profile', {
@@ -22,7 +21,6 @@ const setSubmitListener = (app) => {
     })
     .then((response) => response.json())
     .then(async (json) => {
-      console.log(json);
       renderProfile(json);
     }).catch(function(err) {
       console.error(`Error: ${err}`);
@@ -62,7 +60,6 @@ async function fetchJson(path) {
 }
 
 async function renderProfile(data) {
-  console.log({data});
   const templateProfile = await fetchTemplate('templates/profile.hbs');
   const compiledProfile = Handlebars.compile(templateProfile);
   const htmlProfile = compiledProfile(data);
@@ -70,9 +67,16 @@ async function renderProfile(data) {
   profileElm.classList.remove('loading');
 }
 
-async function renderForm() {
+async function renderForm(dbData) {
   const template = await fetchTemplate('templates/form.hbs');
   const json = await fetchJson('form.json');
+
+  // add value from database to form fields
+  json.fields.map(field => {
+    const dbField = dbData.find((item) => item.name === field.name);
+    return field.value = dbField.value;
+  })
+
   const compiledTemplate = Handlebars.compile(template);
   const html = compiledTemplate(json);
   formElm.innerHTML = html;
@@ -86,5 +90,7 @@ setSubmitListener(app);
 // fetches data from server
 const data = await fetchData(fetchOptions);
 
-renderForm();
+console.log(data);
+
+renderForm(data);
 renderProfile(data)
