@@ -1,10 +1,10 @@
 .loading::before {
-  display: inline-block;
-  vertical-align: middle;
+  display: block;
+  margin: auto;
   content: ' ';
-  width: 0.75em;
-  height: 0.75em;
-  border: 0.1em solid #999;
+  width: 1.5em;
+  height: 1.5em;
+  border: 0.2em solid #999;
   border-top-color: transparent;
   border-radius: 50%;
   animation: loadingspin 1s linear infinite;
@@ -24,12 +24,23 @@
   margin: 0 0 1em;
 }
 
-body > div {
-  display: flex;
+#app > div {
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  #app {
+    display: flex;
+  }
+
+  #form {
+    margin-right: 10px;
+  }
 }
 
 #form {
   padding: 1em;
+  background: #ddd;
 }
 
 label {
@@ -41,7 +52,16 @@ button {
   margin-left: 103px;
 }
 
-#profile {
+.profile {
   background: #ddd;
   padding: 1em;
+  overflow-x: auto;
 }
+
+@media (min-width: 768px) {
+  .profile {
+    max-width: 300px;
+    overflow-wrap: break-word;
+  }
+}
+
