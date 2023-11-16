@@ -1,11 +1,17 @@
 const $form = document.querySelector('#form');
-const $profile = document.querySelector('#profile');
-resetProfile($profile);
+
+// set submit listener on form so form data is sent by js to server
 addListener($form);
-const data = await fetchJson('/api/profile');
-console.log(data);
-renderForm(data, $form);
-renderProfile(data, $profile);
+
+const userData = await fetchJson('/api/profile');
+console.log(userData);
+
+// add form to the page
+$form.innerHTML = await renderForm(userData);
+
+// display user data in profile
+const $profile = document.querySelector('#profile');
+renderProfile(userData, $profile);
 
 function addListener(form) {
   form.addEventListener('submit', (event) => {
@@ -31,17 +37,17 @@ function addListener(form) {
   });
 }
 
-function resetProfile(element) {
-  element.innerHTML = '';
-  element.classList.add('loading');
+function resetProfile(profileElement) {
+  profileElement.innerHTML = '';
+  profileElement.classList.add('loading');
 }
 
-async function renderProfile(data, element) {
-  element.innerHTML = `<code>${JSON.stringify(data)}</code>`;
-  element.classList.remove('loading');
+async function renderProfile(dbData, profileElement) {
+  profileElement.innerHTML = `<code>${JSON.stringify(dbData)}</code>`;
+  profileElement.classList.remove('loading');
 }
 
-async function renderForm(userData, formContainer) {
+async function renderForm(userData) {
   const template = await fetchTemplate('form.hbs');
   const formJson = await fetchJson('form.json');
 
@@ -51,9 +57,13 @@ async function renderForm(userData, formContainer) {
     return field.value = dbField.value;
   })
 
+  // compiles static handlebars template to a function
   const compiledTemplate = Handlebars.compile(template);
-  const html = compiledTemplate(formJson);
-  formContainer.innerHTML = html;
+
+
+  // return form markup
+  const markup = compiledTemplate(formJson);
+  return markup;
 }
 
 async function fetchTemplate(path) {
