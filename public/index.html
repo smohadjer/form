@@ -10,7 +10,7 @@
     </head>
     <body>
         <h1>Circle of Data</h1>
-        <h2>This is an example of transferring data between browser and server using JavaScript without any frameworks. When the page loads in browser, JavaScript fetches this <a href="form.json">json</a> which holds form fields. JavaScript then feeds the json data into this Handlebars <a href="templates/form.hbs">template</a> to generate HTML for the form which is then added to the page. When user submits the form, JavaScript sends a post request to a Node.js function which writes the data to a MongoDB database. Data in database is fetched and displayed in browser via JavaScript calling this API <a href="api/profile.js">endpoint</a>.</h2>
+        <h2>This is an example of transferring data between browser and server using JavaScript without any frameworks. When the page loads in browser, JavaScript fetches this <a href="json/form.json">json</a> which holds form fields. JavaScript then feeds the json data into this Handlebars <a href="template/form.hbs">template</a> to generate HTML for the form which is then added to the page. When user submits the form, JavaScript sends a post request to a Node.js function which writes the data to a MongoDB database. Data in database is fetched and displayed in browser via JavaScript calling this API <a href="api/profile.js">endpoint</a>.</h2>
         <div id="app">
             <div id="form"></div>
             <div class="profile">
