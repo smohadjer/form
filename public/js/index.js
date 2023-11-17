@@ -1,3 +1,5 @@
+import validate from './validate.js';
+
 const $form = document.querySelector('#form');
 
 // set submit listener on form so form data is sent by js to server
@@ -16,8 +18,13 @@ renderProfile(userData, $profile);
 function addListener(form) {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    resetProfile($profile);
     const data = new FormData(event.target);
+
+    if (!validate(event.target)) {
+      return
+    }
+
+    resetProfile($profile);
 
     fetch('/api/profile', {
       method: 'POST',
@@ -48,8 +55,8 @@ async function renderProfile(dbData, profileElement) {
 }
 
 async function renderForm(userData) {
-  const template = await fetchTemplate('form.hbs');
-  const formJson = await fetchJson('form.json');
+  const template = await fetchTemplate('./template/form.hbs');
+  const formJson = await fetchJson('./json/form.json');
 
   // add value from database to form fields
   formJson.fields.map(field => {

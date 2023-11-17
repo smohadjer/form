@@ -1,0 +1,27 @@
+{
+  "method": "POST",
+  "action": "api/profile",
+  "fields": [
+    {
+      "name": "firstname",
+      "label": "First Name",
+      "required": true,
+      "error": "Only letters are allowed",
+      "hint": "Use only letters"
+    },
+    {
+      "name": "lastname",
+      "label": "Last Name",
+      "required": false,
+      "error": "Only letters are allowed",
+      "hint": "Use only letters"
+    },
+    {
+      "name": "age",
+      "label": "Age",
+      "required": false,
+      "error": "Only digits are allowed",
+      "hint": "Use only digits"
+    }
+  ]
+}

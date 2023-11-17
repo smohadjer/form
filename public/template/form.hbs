@@ -5,10 +5,13 @@
       <label>{{label}}:
         {{#if required}}*{{/if}}
       </label>
-      <input name="{{name}}"
-       {{#if required}}required{{/if}}
-       {{#if value}}value="{{value}}"{{/if}}
-      >
+      <div>
+        <p class="hint">{{hint}}</p>
+        <input name="{{name}}"
+        {{#if required}}required{{/if}}
+        {{#if value}}value="{{value}}"{{/if}}>
+        <p class="error" hidden>{{error}}</p>
+      </div>
     </div>
   {{/each}}
   <button>Submit</button>

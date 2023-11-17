@@ -22,6 +22,7 @@
 
 .row {
   margin: 0 0 1em;
+  display: flex;
 }
 
 #app > div {
@@ -43,8 +44,13 @@
   background: #ddd;
 }
 
+form {
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 label {
-  min-width: 100px;
+  min-width: 120px;
   display: inline-block;
 }
 
@@ -65,3 +71,19 @@ button {
   }
 }
 
+input {
+  font-size: inherit;
+}
+
+input.error {
+  border: solid 1px red;
+}
+
+p.hint {
+  margin: 0;
+}
+
+p.error {
+  margin: 0.25em 0 0;
+  color: red;
+}
