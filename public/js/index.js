@@ -18,7 +18,6 @@ function addSubmitListener(form) {
     event.preventDefault();
     const data = new FormData(event.target);
     const json = JSON.stringify(Object.fromEntries(data));
-    console.log({json});
 
     if (!validate(event.target)) {
       return
@@ -36,11 +35,8 @@ function addSubmitListener(form) {
     })
     .then((response) => response.json())
     .then(async (json) => {
-      console.log({json});
-      if (!json.isValid) {
-        if (Array.isArray(json.errors) && json.errors.length > 0) {
-          displayError(json.errors);
-        }
+      if (json.error) {
+        displayError(json.error);
       } else {
         renderProfile(json, $profile);
       }
@@ -59,17 +55,18 @@ async function renderProfile(dbData, profileElement) {
   profileElement.innerHTML = `<code>${JSON.stringify(dbData)}</code>`;
 }
 
-function displayError(errors) {
-  errors.forEach((errorObject) => {
-    console.log('error is:', errorObject.name, errorObject.error)
-    const field = $form.querySelector(`input[name=${ errorObject.name}`);
-    if (field) {
-      field.classList.add('error');
-      field.nextElementSibling.textContent = errorObject.error;
-      field.nextElementSibling.removeAttribute('hidden');
-    }
-
-  });
+function displayError(error) {
+  const errors = error.errors;
+  if (Array.isArray(errors) && errors.length > 0) {
+    errors.forEach((errorObject) => {
+      const field = $form.querySelector(`input[name=${ errorObject.name}`);
+      if (field) {
+        field.classList.add('error');
+        field.nextElementSibling.textContent = errorObject.error;
+        field.nextElementSibling.removeAttribute('hidden');
+      }
+    });
+  }
 }
 
 async function getFormData(userData) {

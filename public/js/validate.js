@@ -15,7 +15,6 @@ export default function validate($form) {
   const formData = new FormData($form);
   const validate = () => {
     for (const item of formData.entries()) {
-      console.log(`${item[0]}, ${item[1]}`);
       const inputField = $form.querySelector(`input[name="${item[0]}"`);
       if (item[0] === 'age' && isNaN(item[1])) {
         setError(inputField);

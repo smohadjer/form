@@ -11,13 +11,13 @@ export default async (req, res) => {
     await client.connect();
     const database = client.db('test');
     const profile = database.collection('profile');
-
-    console.log(req.body);
+    const getData = async () => {
+      const data = await profile.find().project({ _id: 0 }).toArray();
+      return data;
+    }
 
     if (req.method === 'GET') {
-      const data = await profile.find()
-      .project({ _id: 0 })
-      .toArray();
+      const data = await getData();
       res.json(data);
     }
 
@@ -29,7 +29,7 @@ export default async (req, res) => {
     if (req.method === 'POST') {
       const validation = validate(req.body);
       if (!validation.isValid) {
-        return res.json(validation);
+        return res.json({error: validation});
       }
 
       for (const property in req.body) {
@@ -40,7 +40,7 @@ export default async (req, res) => {
         await profile.updateOne(query, updateDoc, { upsert: true });
       }
 
-      const data = await profile.find().toArray();
+      const data = await getData();
       res.json(data);
     }
 
