@@ -6,7 +6,8 @@
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="css/style.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+        <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     </head>
     <body>
         <h1>Circle of Data</h1>
@@ -18,17 +19,7 @@
             <li>Write data to Database after server-side validation</li>
         </ul>
         <p>Code available on <a href="https://github.com/smohadjer/form">GitHub</a></p>
-        <div id="app">
-            <div class="form">
-                <h2>Edit Profile</h2>
-                <div id="form"></div>
-            </div>
-            <div class="profile">
-                <h2>My Profile</h2>
-                <p>Here we simply log users data from database:</p>
-                <div id="profile"></div>
-            </div>
-        </div>
-        <script type="module" src="js/index.js"></script>
+        <div id="app"></div>
+        <script type="module" src="js/app.js"></script>
     </body>
 </html>
