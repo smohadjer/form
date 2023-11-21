@@ -23,8 +23,6 @@ function addSubmitListener(form) {
       return
     }
 
-    //resetProfile($profile);
-
     fetch('/api/profile', {
       method: 'POST',
       headers: {
@@ -44,11 +42,6 @@ function addSubmitListener(form) {
       console.error(`Error: ${err}`);
     });
   });
-}
-
-function resetProfile(profileElement) {
-  profileElement.innerHTML = '';
-  profileElement.classList.add('loading');
 }
 
 async function renderProfile(dbData, profileElement) {
