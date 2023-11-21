@@ -1,0 +1,15 @@
+POST https://form-liart-five.vercel.app/api/profile
+Content-Type: application/json
+
+{
+  "firstname": "Json",
+  "lastname": "test",
+  "age": 52
+}
+
+###
+
+POST https://form-liart-five.vercel.app/api/profile
+Content-Type: application/x-www-form-urlencoded
+
+firstname=urlencoded&lastname=test&age=52

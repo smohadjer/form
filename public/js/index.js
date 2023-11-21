@@ -1,24 +1,24 @@
 import validate from './validate.js';
 
 const $form = document.querySelector('#form');
-
-// set submit listener on form so form data is sent by js to server
-addListener($form);
+addSubmitListener($form);
 
 const userData = await fetchJson('/api/profile');
-console.log(userData);
 
 // add form to the page
-$form.innerHTML = await renderForm(userData);
+const formData = await getFormData(userData);
+$form.innerHTML = await render('./template/form.hbs', formData);
 
-// display user data in profile
+// display user data in profile section
 const $profile = document.querySelector('#profile');
 renderProfile(userData, $profile);
 
-function addListener(form) {
+function addSubmitListener(form) {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
+    const json = JSON.stringify(Object.fromEntries(data));
+    console.log({json});
 
     if (!validate(event.target)) {
       return
@@ -32,7 +32,7 @@ function addListener(form) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(Object.fromEntries(data))
+      body: json
     })
     .then((response) => response.json())
     .then(async (json) => {
@@ -54,23 +54,25 @@ async function renderProfile(dbData, profileElement) {
   profileElement.classList.remove('loading');
 }
 
-async function renderForm(userData) {
-  const template = await fetchTemplate('./template/form.hbs');
+async function getFormData(userData) {
   const formJson = await fetchJson('./json/form.json');
-
   // add value from database to form fields
-  formJson.fields.map(field => {
-    const dbField = userData.find((item) => item.name === field.name);
-    return field.value = dbField.value;
-  })
+  if (userData.length) {
+    formJson.fields.map(field => {
+      const dbField = userData.find((item) => item.name === field.name);
+      return field.value = dbField.value;
+    });
+  }
+  return formJson;
+}
 
-  // compiles static handlebars template to a function
+// render function uses Handlebars library to populate a template with data and
+// return the result as a HTML string
+async function render(templatePath, data) {
+  const template = await fetchTemplate(templatePath);
   const compiledTemplate = Handlebars.compile(template);
-
-
-  // return form markup
-  const markup = compiledTemplate(formJson);
-  return markup;
+  const htmlString = compiledTemplate(data);
+  return htmlString;
 }
 
 async function fetchTemplate(path) {
