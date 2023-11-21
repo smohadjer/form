@@ -24,7 +24,7 @@ function addSubmitListener(form) {
       return
     }
 
-    resetProfile($profile);
+    //resetProfile($profile);
 
     fetch('/api/profile', {
       method: 'POST',
@@ -36,8 +36,14 @@ function addSubmitListener(form) {
     })
     .then((response) => response.json())
     .then(async (json) => {
-      console.log(json);
-      renderProfile(json, $profile);
+      console.log({json});
+      if (!json.isValid) {
+        if (Array.isArray(json.errors) && json.errors.length > 0) {
+          displayError(json.errors);
+        }
+      } else {
+        renderProfile(json, $profile);
+      }
     }).catch(function(err) {
       console.error(`Error: ${err}`);
     });
@@ -51,7 +57,19 @@ function resetProfile(profileElement) {
 
 async function renderProfile(dbData, profileElement) {
   profileElement.innerHTML = `<code>${JSON.stringify(dbData)}</code>`;
-  profileElement.classList.remove('loading');
+}
+
+function displayError(errors) {
+  errors.forEach((errorObject) => {
+    console.log('error is:', errorObject.name, errorObject.error)
+    const field = $form.querySelector(`input[name=${ errorObject.name}`);
+    if (field) {
+      field.classList.add('error');
+      field.nextElementSibling.textContent = errorObject.error;
+      field.nextElementSibling.removeAttribute('hidden');
+    }
+
+  });
 }
 
 async function getFormData(userData) {

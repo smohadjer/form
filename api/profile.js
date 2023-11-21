@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import validate from './validate.js';
 import { MongoClient } from 'mongodb';
 
 dotenv.config();
@@ -14,15 +15,23 @@ export default async (req, res) => {
     console.log(req.body);
 
     if (req.method === 'GET') {
-      const data = await profile.find().toArray();
+      const data = await profile.find()
+      .project({ _id: 0 })
+      .toArray();
       res.json(data);
     }
 
-    //req.body looks like this { firstname: 'Jack', age: '34', ... }
+    // req.body looks like this { firstname: 'Jack', age: '34', ... }
     // db collection looks like this:
     // { name: "firstname", value" "Tom" }
     // { name: "age", value" "23" }
+
     if (req.method === 'POST') {
+      const validation = validate(req.body);
+      if (!validation.isValid) {
+        return res.json(validation);
+      }
+
       for (const property in req.body) {
         const query = { name: property };
         const updateDoc = {
@@ -37,6 +46,7 @@ export default async (req, res) => {
 
   } catch (e) {
     console.error(e);
+    res.status(500).end();
   } finally {
     await client.close();
   }
