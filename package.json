@@ -6,8 +6,8 @@
   "main": "server.js",
   "scripts": {
     "babel": "node ./node_modules/.bin/babel public/jsx --out-dir public/js --presets=@babel/preset-react",
-    "start": "npm run babel && node server.js",
-    "dev": "npm run babel && nodemon server.js"
+    "start": "npm run babel  -- --watch & node server.js",
+    "dev": "npm run babel -- --watch & nodemon server.js"
   },
   "author": "Saeid Mohadjer",
   "license": "ISC",
