@@ -2,7 +2,7 @@ import {
   addSubmitListener,
   fetchJson,
   getFormData,
-  render,
+  renderForm,
   renderProfile
 } from './lib.js';
 
@@ -10,12 +10,15 @@ import {
 const $form = document.querySelector('#form');
 const $profile = document.querySelector('#profile');
 
-// generate form from json and display it on the page
-
+// add submit handler to the form
 addSubmitListener($form, $profile);
-const userData = await fetchJson('/api/profile');
-const formData = await getFormData(userData);
-$form.innerHTML = await render('./template/form.hbs', formData);
 
-// populate profile with data and display it on the page
+// get user's data from database
+const userData = await fetchJson('/api/profile');
+
+// ged form data from static json
+const formData = await getFormData('./json/form.json', userData);
+
+// add form and profile sections to the page
+renderForm(formData, $form);
 renderProfile(userData, $profile);

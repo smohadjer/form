@@ -82,8 +82,8 @@ export function displayError($form, error) {
   }
 }
 
-export async function getFormData(userData) {
-  const formJson = await fetchJson('./json/form.json');
+export async function getFormData(jsonPath, userData) {
+  const formJson = await fetchJson(jsonPath);
   // add value from database to form fields
   if (userData.length) {
     formJson.fields.map(field => {
@@ -96,11 +96,11 @@ export async function getFormData(userData) {
 
 // render function uses Handlebars library to populate a template with data and
 // return the result as a HTML string
-export async function render(templatePath, data) {
-  const template = await fetchTemplate(templatePath);
+export async function renderForm(data, $form) {
+  const template = await fetchTemplate('./template/form.hbs');
   const compiledTemplate = Handlebars.compile(template);
   const htmlString = compiledTemplate(data);
-  return htmlString;
+  $form.innerHTML = htmlString
 }
 
 export async function fetchTemplate(path) {
