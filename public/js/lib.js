@@ -29,6 +29,7 @@ export function addSubmitListener($form, $profile) {
       if (json.error) {
         displayErrors($form, json.error);
       } else {
+        resetValidation($form.querySelectorAll('input'));
         renderProfile(json, $profile);
       }
     }).catch(function(err) {
