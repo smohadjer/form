@@ -26,6 +26,7 @@ export function addSubmitListener($form, $profile) {
     })
     .then((response) => response.json())
     .then(async (json) => {
+      // if server returns errors, show erros in form
       if (json.error) {
         displayErrors($form, json.error);
       } else {
@@ -44,14 +45,12 @@ export async function renderProfile(dbData, profileElement) {
 
 function displayErrors($form, errors) {
   resetValidation($form.querySelectorAll('input'));
-  console.log(errors.length);
   errors.forEach(error => {
     const inputName = error.instancePath.substring(1);
     const inputField = $form.querySelector(`input[name="${inputName}"`);
     inputField.classList.add('error');
     inputField.nextElementSibling.textContent = error.message;
     inputField.nextElementSibling.removeAttribute('hidden');
-    console.log(inputName, error);
   });
 }
 
@@ -62,14 +61,15 @@ function resetValidation(inputs) {
   });
 }
 
+// client-side validation
 function validateData($form, jsonData, schema) {
-  const state = { isValid: true };
-  const result = validate(jsonData, schema, window.ajv7);
+  let isValid = true;
+  const result = validate(jsonData, schema);
   if (result && Array.isArray(result)) {
-    state.isValid = false;
-    displayErrors($form, result);
+    isValid = false;
+    displayErrors($form, errors);
   }
-  return state.isValid;
+  return isValid;
 }
 
 export async function getFormData(jsonPath, userData) {

@@ -1,14 +1,24 @@
 import dotenv from 'dotenv';
-import validate from './validate.js';
 import { MongoClient } from 'mongodb';
 import * as fs from 'fs';
 import Ajv from 'ajv';
+import ajvErrors from 'ajv-errors';
 
 const schema = JSON.parse(fs.readFileSync(process.cwd() + '/public/json/schema.json', 'utf8'));
 
 dotenv.config();
 
 const client = new MongoClient(process.env.db_uri);
+
+const ajv = new Ajv({
+  coerceTypes: true,
+  allErrors: true,
+  strict: false,
+
+});
+
+ajvErrors(ajv);
+const validator = ajv.compile(schema);
 
 export default async (req, res) => {
   try {
@@ -31,11 +41,11 @@ export default async (req, res) => {
     // { name: "age", value" "23" }
 
     if (req.method === 'POST') {
-
-      const result = validate(req.body, schema, Ajv);
-      if (result && Array.isArray(result)) {
-        console.log(result);
-        return res.json({error: result});
+      // if body contains invalid data return errors in response
+      const valid = validator(req.body);
+      console.log(validator.errors);
+      if (!valid) {
+          return res.json({error: validator.errors});
       }
 
       for (const property in req.body) {

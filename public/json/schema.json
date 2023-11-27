@@ -4,16 +4,27 @@
     "firstname": {
       "type": "string",
        "pattern": "^([^0-9]*)$",
-       "minLength": 1
+       "minLength": 1,
+       "errorMessage": {
+          "pattern": "Use only letters!",
+          "minLength": "This is a required field!"
+       }
     },
     "lastname": {
       "type": "string",
-      "pattern": "^([^0-9]*)$"
+      "pattern": "^([^0-9]*)$",
+      "errorMessage": {
+        "pattern": "Use only letters!"
+     }
     },
     "age": {
       "type": "integer",
       "minimum": 10,
-      "maximum": 100
+      "maximum": 100,
+      "errorMessage": {
+        "minimum": "You must be older than 10!",
+        "minLength": "Sorry, you are too old!"
+     }
     }
   },
   "required": ["firstname"],
