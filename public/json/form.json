@@ -4,6 +4,10 @@
   "disable-clientside-validation": true,
   "fields": [
     {
+      "name": "_id",
+      "hidden": true
+    },
+    {
       "name": "firstname",
       "label": "First Name",
       "placeholder": "leave empty to see error",

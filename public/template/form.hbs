@@ -1,18 +1,22 @@
 <!-- attribute novalidate disables browser's native form validation -->
 <form {{#if disable-clientside-validation}}class="no-validation" novalidate{{/if}} method="{{method}}" action="{{action}}">
   {{#each fields}}
-    <div class="row">
-      <label>{{label}}:
-        {{#if required}}*{{/if}}
-      </label>
-      <div>
-        <p class="hint">{{hint}}</p>
-        <input name="{{name}}" placeholder="{{placeholder}}"
-        {{#if required}}required{{/if}}
-        {{#if value}}value="{{value}}"{{/if}}>
-        <p class="error" hidden>{{error}}</p>
+    {{#if hidden}}
+      <input name="{{name}}" hidden>
+    {{else}}
+      <div class="row">
+        <label>{{label}}:
+          {{#if required}}*{{/if}}
+        </label>
+        <div>
+          <p class="hint">{{hint}}</p>
+          <input name="{{name}}" placeholder="{{placeholder}}"
+          {{#if required}}required{{/if}}
+          {{#if value}}value="{{value}}"{{/if}}>
+          <p class="error" hidden>{{error}}</p>
+        </div>
       </div>
-    </div>
+    {{/if}}
   {{/each}}
   <button>Submit</button>
 </form>

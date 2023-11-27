@@ -1,6 +1,9 @@
 {
   "type": "object",
   "properties": {
+    "_id": {
+      "type": "string"
+    },
     "firstname": {
       "type": "string",
        "pattern": "^([^0-9]*)$",
@@ -22,11 +25,11 @@
       "minimum": 10,
       "maximum": 100,
       "errorMessage": {
-        "minimum": "You must be older than 10!",
-        "minLength": "Sorry, you are too old!"
+        "minimum": "Age must be more than 10!",
+        "minLength": "Age must be less than 100!"
      }
     }
   },
-  "required": ["firstname"],
+  "required": ["_id", "firstname"],
   "additionalProperties": false
 }

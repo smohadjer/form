@@ -19,6 +19,7 @@ renderForm(formData, $form);
 
 // get user's data from database and display it on page
 const userData = await fetchJson('/api/profile');
+console.log(userData)
 renderProfile(userData, $profile);
 
 // populate form with user data

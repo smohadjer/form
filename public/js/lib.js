@@ -79,10 +79,13 @@ function validateData($form, jsonData, schema) {
 export async function populateForm(userData, $form) {
   // add value from database to form fields
   if (userData.length) {
-    userData.forEach(item => {
-      const $input = $form.querySelector(`input[name=${item.name}]`);
-      if ($input) {
-        $input.value = item.value;
+    userData.forEach(user => {
+      for (const prop in user) {
+        console.log(prop, user[prop])
+        const $input = $form.querySelector(`input[name=${prop}]`);
+        if ($input) {
+          $input.value = user[prop];
+        }
       }
     });
   }
