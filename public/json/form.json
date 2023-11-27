@@ -6,22 +6,20 @@
     {
       "name": "firstname",
       "label": "First Name",
-      "required": true,
-      "error": "Only letters are allowed",
-      "hint": "Use only letters"
+      "placeholder": "leave empty to see error",
+      "hint": "Use only letters",
+      "required": true
     },
     {
       "name": "lastname",
       "label": "Last Name",
-      "required": false,
-      "error": "Only letters are allowed",
+      "placeholder": "add a number to see error",
       "hint": "Use only letters"
     },
     {
       "name": "age",
       "label": "Age",
-      "required": false,
-      "error": "Only digits are allowed",
+      "placeholder": "enter an age less than 10 to see error",
       "hint": "Use only digits"
     }
   ]

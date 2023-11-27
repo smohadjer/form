@@ -9,14 +9,13 @@
     </head>
     <body>
         <h1>Using JSON and JSON Schema to generate and validate forms</h1>
-        <p>This is a proof of concept for:</p>
+        <p>This is a proof of concept for generating a HTML form from JSON using JavaScript. The form posts data to server which gets validated on the server using a JSON Schema before being written to database. If validation fails, errors are returned and displayed in the form, otherwise updated data in database is displayed on the page. Code available on <a href="https://github.com/smohadjer/form">GitHub</a></p>
         <ul>
-            <li>Generating a form in browser using JavaScript by parsing a <a href="json/form.json">JSON</a> and compiling a <a href="template/form.hbs">Handlebars template</a></li>
-            <li>Post form data to server after client-side validation using this <a href="json/schema.json">JSON Schema</a></li>
-            <li>Write data to Database after server-side validation using same JSON Schema</li>
-            <li>Read posted data from Database via an <a href="api/profile">API endpoint</a> and display it in browser</li>
+            <li><a href="json/form.json">JSON for from</a></li>
+            <li><a href="template/form.hbs">Form template (Handlebars)</li>
+            <li><a href="json/schema.json">JSON Schema</a></li>
+            <li><a href="api/profile">API endpoint for data</a></li>
         </ul>
-        <p>Code available on <a href="https://github.com/smohadjer/form">GitHub</a></p>
         <div id="app">
             <div class="form">
                 <h2>Edit data in Database</h2>
@@ -24,8 +23,8 @@
             </div>
             <div class="profile">
                 <h2>Database</h2>
-                <p>Here we simply log users data from database:</p>
-                <div id="profile"></div>
+                <p>Log of data in database:</p>
+                <div class="loading" id="profile"></div>
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>

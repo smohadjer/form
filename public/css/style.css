@@ -1,3 +1,22 @@
+.loading::before {
+  content: ' ';
+  width: 2em;
+  height: 2em;
+  border: 0.2em solid #999;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: loadingspin 1s linear infinite;
+  display: block;
+  margin: auto;
+}
+
+@keyframes loadingspin {
+  100% {
+      transform: rotate(360deg)
+  }
+}
+
+
 *:first-child {
   margin-top: 0;
 }
@@ -45,6 +64,10 @@ button {
   padding: 1em;
 }
 
+#profile.loading code {
+  visibility: hidden;;
+}
+
 @media (min-width: 768px) {
   .form,
   .profile {
@@ -55,6 +78,13 @@ button {
 
 input {
   font-size: inherit;
+}
+
+@media (min-width: 768px) {
+  input {
+    min-width: 200px;
+    font-size: 14px;
+  }
 }
 
 input.error {

@@ -1,7 +1,7 @@
 import {
   addSubmitListener,
   fetchJson,
-  getFormData,
+  populateForm,
   renderForm,
   renderProfile
 } from './lib.js';
@@ -13,12 +13,13 @@ const $profile = document.querySelector('#profile');
 // add submit handler to the form
 addSubmitListener($form, $profile);
 
-// get user's data from database
-const userData = await fetchJson('/api/profile');
-
-// ged form data from static json
-const formData = await getFormData('./json/form.json', userData);
-
-// add form and profile sections to the page
+const formData = await fetchJson('./json/form.json');
+// add form to the page
 renderForm(formData, $form);
+
+// get user's data from database and display it on page
+const userData = await fetchJson('/api/profile');
 renderProfile(userData, $profile);
+
+// populate form with user data
+populateForm(userData, $form);

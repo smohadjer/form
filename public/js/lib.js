@@ -7,8 +7,6 @@ export function addSubmitListener($form, $profile) {
     const json = JSON.stringify(Object.fromEntries(data));
     const schema = await fetchJson('/json/schema.json');
 
-    console.log(event.target.classList.contains('no-validation'));
-
     if (!event.target.classList.contains('no-validation')) {
       console.log('starting validation...');
       if (!validateData(event.target, Object.fromEntries(data), schema)) {
@@ -31,7 +29,12 @@ export function addSubmitListener($form, $profile) {
         displayErrors($form, json.error);
       } else {
         resetValidation($form.querySelectorAll('input'));
-        renderProfile(json, $profile);
+        $profile.classList.add('loading');
+
+        // using a delay so user notices profile update
+        setTimeout(() => {
+          renderProfile(json, $profile);
+        }, 250)
       }
     }).catch(function(err) {
       console.error(`Error: ${err}`);
@@ -40,6 +43,7 @@ export function addSubmitListener($form, $profile) {
 }
 
 export async function renderProfile(dbData, profileElement) {
+  profileElement.classList.remove('loading');
   profileElement.innerHTML = `<code>${JSON.stringify(dbData)}</code>`;
 }
 
@@ -72,16 +76,16 @@ function validateData($form, jsonData, schema) {
   return isValid;
 }
 
-export async function getFormData(jsonPath, userData) {
-  const formJson = await fetchJson(jsonPath);
+export async function populateForm(userData, $form) {
   // add value from database to form fields
   if (userData.length) {
-    formJson.fields.map(field => {
-      const dbField = userData.find((item) => item.name === field.name);
-      return field.value = dbField.value;
+    userData.forEach(item => {
+      const $input = $form.querySelector(`input[name=${item.name}]`);
+      if ($input) {
+        $input.value = item.value;
+      }
     });
   }
-  return formJson;
 }
 
 // render function uses Handlebars library to populate a template with data and
