@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "firstname": {
+      "type": "string",
+       "pattern": "^([^0-9]*)$",
+       "minLength": 1
+    },
+    "lastname": {
+      "type": "string",
+      "pattern": "^([^0-9]*)$"
+    },
+    "age": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 100
+    }
+  },
+  "required": ["firstname"],
+  "additionalProperties": false
+}

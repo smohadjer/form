@@ -1,46 +1,19 @@
-function validateData($form) {
-  const inputs = $form.querySelectorAll('input');
-  const state = { isValid: true };
-  const resetValidation = (inputs) => {
-    inputs.forEach((input) => {
-      input.classList.remove('error');
-      input.nextElementSibling.setAttribute('hidden', 'hidden');
-    });
-  };
-  const setError = (input) => {
-    state.isValid = false;
-    input.classList.add('error');
-    input.nextElementSibling.removeAttribute('hidden');
-  };
-  const formData = new FormData($form);
-  const validate = () => {
-    for (const item of formData.entries()) {
-      const inputField = $form.querySelector(`input[name="${item[0]}"`);
-      if (item[0] === 'age' && isNaN(item[1])) {
-        setError(inputField);
-      }
-
-      // to find out if a string contains number we use regix /\d/
-      if (item[0] !== 'age' && /\d/.test(item[1])) {
-        setError(inputField);
-      }
-    }
-  };
-
-  resetValidation(inputs);
-  validate();
-
-  return state.isValid;
-}
+import validate from './validate.js';
 
 export function addSubmitListener($form, $profile) {
-  $form.addEventListener('submit', (event) => {
+  $form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
     const json = JSON.stringify(Object.fromEntries(data));
+    const schema = await fetchJson('/json/schema.json');
 
-    if (!validateData(event.target)) {
-      return
+    console.log(event.target.classList.contains('no-validation'));
+
+    if (!event.target.classList.contains('no-validation')) {
+      console.log('starting validation...');
+      if (!validateData(event.target, Object.fromEntries(data), schema)) {
+        return;
+      }
     }
 
     fetch('/api/profile', {
@@ -54,7 +27,7 @@ export function addSubmitListener($form, $profile) {
     .then((response) => response.json())
     .then(async (json) => {
       if (json.error) {
-        displayError($form, json.error);
+        displayErrors($form, json.error);
       } else {
         renderProfile(json, $profile);
       }
@@ -68,18 +41,34 @@ export async function renderProfile(dbData, profileElement) {
   profileElement.innerHTML = `<code>${JSON.stringify(dbData)}</code>`;
 }
 
-export function displayError($form, error) {
-  const errors = error.errors;
-  if (Array.isArray(errors) && errors.length > 0) {
-    errors.forEach((errorObject) => {
-      const field = $form.querySelector(`input[name=${ errorObject.name}`);
-      if (field) {
-        field.classList.add('error');
-        field.nextElementSibling.textContent = errorObject.error;
-        field.nextElementSibling.removeAttribute('hidden');
-      }
-    });
+function displayErrors($form, errors) {
+  resetValidation($form.querySelectorAll('input'));
+  console.log(errors.length);
+  errors.forEach(error => {
+    const inputName = error.instancePath.substring(1);
+    const inputField = $form.querySelector(`input[name="${inputName}"`);
+    inputField.classList.add('error');
+    inputField.nextElementSibling.textContent = error.message;
+    inputField.nextElementSibling.removeAttribute('hidden');
+    console.log(inputName, error);
+  });
+}
+
+function resetValidation(inputs) {
+  inputs.forEach((input) => {
+    input.classList.remove('error');
+    input.nextElementSibling.setAttribute('hidden', 'hidden');
+  });
+}
+
+function validateData($form, jsonData, schema) {
+  const state = { isValid: true };
+  const result = validate(jsonData, schema, window.ajv7);
+  if (result && Array.isArray(result)) {
+    state.isValid = false;
+    displayErrors($form, result);
   }
+  return state.isValid;
 }
 
 export async function getFormData(jsonPath, userData) {

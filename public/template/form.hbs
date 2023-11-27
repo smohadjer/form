@@ -1,4 +1,6 @@
-<form method="{{method}}" action="{{action}}">
+<!-- attribute novalidate disables browser's native form validation -->
+<!-- For purpose of testing server-side validation we use class "no-validation" -->
+<form {{#if disable-clientside-validation}}class="no-validation" novalidate{{/if}} method="{{method}}" action="{{action}}">
   {{#each fields}}
     <div class="row">
       <label>{{label}}:

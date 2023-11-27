@@ -1,6 +1,7 @@
 {
   "method": "POST",
   "action": "api/profile",
+  "disable-clientside-validation": true,
   "fields": [
     {
       "name": "firstname",

@@ -1,6 +1,10 @@
 import dotenv from 'dotenv';
 import validate from './validate.js';
 import { MongoClient } from 'mongodb';
+import * as fs from 'fs';
+import Ajv from 'ajv';
+
+const schema = JSON.parse(fs.readFileSync(process.cwd() + '/public/json/schema.json', 'utf8'));
 
 dotenv.config();
 
@@ -27,9 +31,11 @@ export default async (req, res) => {
     // { name: "age", value" "23" }
 
     if (req.method === 'POST') {
-      const validation = validate(req.body);
-      if (!validation.isValid) {
-        return res.json({error: validation});
+
+      const result = validate(req.body, schema, Ajv);
+      if (result && Array.isArray(result)) {
+        console.log(result);
+        return res.json({error: result});
       }
 
       for (const property in req.body) {
