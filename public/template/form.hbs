@@ -1,5 +1,5 @@
-<!-- attribute novalidate disables browser's native form validation -->
-<form {{#if disable-clientside-validation}}class="no-validation" novalidate{{/if}} method="{{method}}" action="{{action}}">
+<!-- Use attribute novalidate on form to disable browser's native form validation -->
+<form {{#if disable-clientside-validation}}class="no-validation"{{/if}} method="{{method}}" action="{{action}}">
   {{#each fields}}
     {{#if hidden}}
       <input name="{{name}}" hidden>
