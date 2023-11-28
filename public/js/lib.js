@@ -71,7 +71,7 @@ function validateData($form, jsonData, schema) {
   const result = validate(jsonData, schema);
   if (result && Array.isArray(result)) {
     isValid = false;
-    displayErrors($form, errors);
+    displayErrors($form, result);
   }
   return isValid;
 }
