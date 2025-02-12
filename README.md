@@ -7,8 +7,10 @@ https://form-liart-five.vercel.app/
 ````
 git clone https://github.com/smohadjer/form.git
 npm install
-npm run dev
+npm run serve
 ````
+
+You can also use `vercel dev` to run project locally, but it won't watch and update bundle.js.
 
 ## Deploy
 ````

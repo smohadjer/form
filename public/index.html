@@ -2,14 +2,15 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Form with API</title>
-        <meta name="description" content="" />
+        <title>Forms via JSON and JSON Schema</title>
+        <meta name="description" content="Forms via JSON and JSON Schema" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Using JSON and JSON Schema to generate and validate forms</h1>
-        <p>This is a proof of concept for generating a HTML form from JSON using JavaScript. The form posts data to server which gets validated on the server using a JSON Schema before being written to database. If validation fails, errors are returned and displayed in the form, otherwise updated data in database is displayed on the page. Code available on <a href="https://github.com/smohadjer/form">GitHub</a></p>
+        <h1>Generate, populate, and validate forms via JSON and JSON Schema</h1>
+        <p>Last updated: 12.02.2025, uses <a href="https://www.npmjs.com/package/handlebars">handlebars.js</a> and <a href="https://www.npmjs.com/package/ajv">ajv.js</a></p>
+        <p>The form posts data to a serverless function which then writes to a MongoDB database. Form data is validated both in browser and on the server using the same JSON Schema. For sake of this test browser's default validation has been disabled using 'novalidate' attribute on form. Code is available on <a href="https://github.com/smohadjer/form">GitHub</a></p>
         <ul>
             <li><a href="json/form.json">JSON for from</a></li>
             <li><a href="template/form.hbs">Form template (Handlebars)</li>
@@ -27,7 +28,6 @@
                 <div class="loading" id="profile"></div>
             </div>
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
-        <script type="module" src="js/index.js"></script>
+        <script type="module" src="js/bundle.js"></script>
     </body>
 </html>

@@ -1,22 +1,66 @@
 <!-- Use attribute novalidate on form to disable browser's native form validation -->
-<form {{#if disable-clientside-validation}}class="no-validation"{{/if}} method="{{method}}" action="{{action}}">
+<form {{#if form.disableBrowserValidation}}novalidate{{/if}}
+  {{#if form.disableClientSideValidation}}class="no-validation"{{/if}}
+  method="{{form.method}}"
+  action="{{form.action}}">
   {{#each fields}}
-    {{#if hidden}}
-      <input name="{{name}}" hidden>
-    {{else}}
+    {{#ifEquals type 'hidden'}}
+      <input  hidden name="{{name}}" value="{{value}}"
+        {{#if required}}required{{/if}}
+        {{#if value}}value="{{value}}"{{/if}}>
+    {{/ifEquals}}
+
+    {{#ifEquals type 'input'}}
       <div class="row">
         <label>{{label}}:
           {{#if required}}*{{/if}}
         </label>
         <div>
           <p class="hint">{{hint}}</p>
-          <input name="{{name}}" placeholder="{{placeholder}}"
+          <input class="formfield" name="{{name}}" placeholder="{{placeholder}}"
           {{#if required}}required{{/if}}
           {{#if value}}value="{{value}}"{{/if}}>
           <p class="error" hidden>{{error}}</p>
         </div>
       </div>
-    {{/if}}
+    {{/ifEquals}}
+
+    {{#ifEquals type 'select'}}
+      <div class="row">
+        <label>{{label}}:
+          {{#if required}}*{{/if}}
+        </label>
+        <div>
+          <select class="formfield" name="{{name}}">
+            <option value="">{{hint}}</option>
+            {{#each options}}
+              <option
+                {{#ifEquals value ../value}}selected{{/ifEquals}}
+                value="{{value}}">{{name}}</option>
+            {{/each}}
+          </select>
+          <p class="error" hidden>{{error}}</p>
+        </div>
+      </div>
+    {{/ifEquals}}
+
+    {{#ifEquals type 'radio'}}
+      <div class="row">
+        <label>{{label}}:
+          {{#if required}}*{{/if}}
+        </label>
+        <div>
+          <div>
+            {{#each options}}
+              <input type="radio" id="{{value}}" name="{{../name}}" value="{{value}}"
+                {{#ifEquals value ../value}}checked{{/ifEquals}}>
+              <label class="label--radio" for="{{value}}">{{name}}</label>
+            {{/each}}
+          </div>
+          <p class="error" hidden>{{error}}</p>
+        </div>
+      </div>
+    {{/ifEquals}}
   {{/each}}
   <button>Submit</button>
 </form>

@@ -1,6 +1,5 @@
-// validates a json with a schema using Ajv validator and returns errors if validation fails
-import Ajv from 'https://cdn.jsdelivr.net/npm/ajv@8.12.0/+esm';
-import ajvErrors from 'https://cdn.jsdelivr.net/npm/ajv-errors@3.0.0/+esm';
+import Ajv from 'ajv';
+import ajvErrors from 'ajv-errors';
 
 export default function validate(json, schema) {
   const ajv = new Ajv({
@@ -14,6 +13,7 @@ export default function validate(json, schema) {
   const validator = ajv.compile(schema);
   const valid = validator(json);
   if (!valid) {
-    return (validator.errors);
+    console.log(validator.errors)
+    return validator.errors;
   }
 }

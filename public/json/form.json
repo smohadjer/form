@@ -1,30 +1,62 @@
 {
-  "method": "POST",
-  "action": "api/profile",
-  "disable-clientside-validation": false,
+  "form": {
+    "method": "POST",
+    "action": "api/profile",
+    "disableBrowserValidation": true,
+    "disableClientSideValidation": false
+  },
   "fields": [
     {
       "name": "_id",
-      "hidden": true
+      "type": "hidden",
+      "value": null
     },
     {
       "name": "firstname",
       "label": "First Name",
       "placeholder": "leave empty to see error",
       "hint": "Use only letters",
-      "required": true
+      "required": true,
+      "type": "input",
+      "value": null
     },
     {
       "name": "lastname",
       "label": "Last Name",
       "placeholder": "add a number to see error",
-      "hint": "Use only letters"
+      "hint": "Use only letters",
+      "type": "input",
+      "value": null
     },
     {
       "name": "age",
       "label": "Age",
       "placeholder": "enter an age less than 10 to see error",
-      "hint": "Use only digits"
+      "hint": "Use only digits",
+      "type": "input",
+      "value": null
+    },
+    {
+      "name": "gender",
+      "label": "Gender",
+      "type": "radio",
+      "options": [
+        {"name": "Male", "value": "male"},
+        {"name": "Female", "value": "female"}
+      ],
+      "value": null
+    },
+    {
+      "name": "role",
+      "label": "Role",
+      "hint": "Select a role",
+      "options": [
+        {"name": "Admin", "value": "admin"},
+        {"name": "Project Manager", "value": "manager"}
+      ],
+      "type": "select",
+      "required": true,
+      "value": null
     }
   ]
 }

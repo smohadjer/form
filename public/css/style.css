@@ -50,6 +50,10 @@ label {
   display: inline-block;
 }
 
+label.label--radio {
+  min-width: unset;
+}
+
 button {
   margin-left: 120px;
 }
@@ -81,7 +85,7 @@ input {
 }
 
 @media (min-width: 768px) {
-  input {
+  input:not([type="radio"]) {
     min-width: 200px;
     font-size: 14px;
   }

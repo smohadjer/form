@@ -27,9 +27,15 @@
       "errorMessage": {
         "minimum": "Age must be more than 10!",
         "minLength": "Age must be less than 100!"
-     }
-    }
+     	}
+    },
+		"gender": {
+      "type": "string"
+		},
+		"role": {
+      "type": "string"
+		}
   },
-  "required": ["_id", "firstname"],
+  "required": ["_id", "firstname", "role"],
   "additionalProperties": false
 }

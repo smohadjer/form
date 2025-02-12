@@ -9,7 +9,7 @@ const client = new MongoClient(process.env.db_uri);
 
 async function updateDB(collection, data) {
   const userId = data._id;
-  const query = { _id: new ObjectId(userId) };
+  const query = { _id: ObjectId.createFromHexString(userId) };
 
   // removing _id property as this field can't be overwritten in db
   delete data._id;

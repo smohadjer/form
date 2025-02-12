@@ -1,4 +1,9 @@
 import validate from './validate.js';
+import Handlebars from 'handlebars';
+
+Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
 
 export function addSubmitListener($form, $profile) {
   $form.addEventListener('submit', async (event) => {
@@ -48,20 +53,24 @@ export async function renderProfile(dbData, profileElement) {
 }
 
 function displayErrors($form, errors) {
-  resetValidation($form.querySelectorAll('input'));
+  resetValidation($form.querySelectorAll('.formfield'));
   errors.forEach(error => {
-    const inputName = error.instancePath.substring(1);
-    const inputField = $form.querySelector(`input[name="${inputName}"`);
-    inputField.classList.add('error');
-    inputField.nextElementSibling.textContent = error.message;
-    inputField.nextElementSibling.removeAttribute('hidden');
+    const fieldName = error.instancePath.substring(1);
+    const formField = $form.querySelector(`[name="${fieldName}"`);
+    if (formField) {
+      formField.classList.add('error');
+      formField.nextElementSibling.textContent = error.message;
+      formField.nextElementSibling.removeAttribute('hidden');
+    }
   });
 }
 
-function resetValidation(inputs) {
-  inputs.forEach((input) => {
-    input.classList.remove('error');
-    input.nextElementSibling.setAttribute('hidden', 'hidden');
+function resetValidation(fields) {
+  fields.forEach((field) => {
+    if (field) {
+      field.classList.remove('error');
+      field.nextElementSibling.setAttribute('hidden', 'hidden');
+    }
   });
 }
 
@@ -74,21 +83,6 @@ function validateData($form, jsonData, schema) {
     displayErrors($form, result);
   }
   return isValid;
-}
-
-export async function populateForm(userData, $form) {
-  // add value from database to form fields
-  if (userData.length) {
-    userData.forEach(user => {
-      for (const prop in user) {
-        console.log(prop, user[prop])
-        const $input = $form.querySelector(`input[name=${prop}]`);
-        if ($input) {
-          $input.value = user[prop];
-        }
-      }
-    });
-  }
 }
 
 // render function uses Handlebars library to populate a template with data and
