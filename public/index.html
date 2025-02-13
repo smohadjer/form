@@ -8,15 +8,12 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
+        <p>Last updated: 12.02.2025</p>
         <h1>Generate, populate, and validate forms via JSON and JSON Schema</h1>
-        <p>Last updated: 12.02.2025, uses <a href="https://www.npmjs.com/package/handlebars">handlebars.js</a> and <a href="https://www.npmjs.com/package/ajv">ajv.js</a></p>
-        <p>The form posts data to a serverless function which then writes to a MongoDB database. Form data is validated both in browser and on the server using the same JSON Schema. For sake of this test browser's default validation has been disabled using 'novalidate' attribute on form. Code is available on <a href="https://github.com/smohadjer/form">GitHub</a></p>
-        <ul>
-            <li><a href="json/form.json">JSON for from</a></li>
-            <li><a href="template/form.hbs">Form template (Handlebars)</li>
-            <li><a href="json/schema.json">JSON Schema</a></li>
-            <li><a href="api/profile">API endpoint for data</a></li>
-        </ul>
+        <p>Example of a HTML form generated from a <a href="json/form.json">JSON file</a> via JavaScript in browser. Form is validated using the same <a href="json/schema.json">JSON Schema</a> both in browser and on the server (Node.js). Upon successful submission of form a serverless function writes data to a MongoDB instance and displays data in browser.</p>
+        <p>This version of demo uses Handlebars to generate HTML from JSON via this <a href="template/form.hbs">template</a>. A React version is available <a href="https://form-react-vite-beryl.vercel.app/">here</a>.</p>
+        <p>Code available on <a href="https://github.com/smohadjer/form">GitHub</a>. Uses <a href="https://www.npmjs.com/package/handlebars">handlebars.js</a> and <a href="https://www.npmjs.com/package/ajv">ajv.js</a> libraries.</p>
+
         <div id="app">
             <div class="form">
                 <h2>Edit data in Database</h2>
@@ -24,7 +21,7 @@
             </div>
             <div class="profile">
                 <h2>Database</h2>
-                <p>Log of data in database:</p>
+                <p>Log of data in database as returned by endpoint "<a href="api/profile">api/profile</a>":</p>
                 <div class="loading" id="profile"></div>
             </div>
         </div>

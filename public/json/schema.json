@@ -25,25 +25,25 @@
       "errorMessage": {
         "minimum": "Age must be more than 10!",
         "minLength": "Age must be less than 100!"
-     	}
+       }
     },
-		"gender": {
+    "gender": {
       "enum": ["male", "female"],
       "errorMessage": {
         "enum": "Wrong value",
         "required": "This is a required field!"
-     	}
-		},
-		"role": {
+       }
+    },
+    "role": {
       "type": "string"
-		},
-		"privacy": {
+    },
+    "privacy": {
       "enum": ["agree"],
       "errorMessage": {
         "enum": "You should agree to privacy policy.",
         "required": "This is a required field!"
-     	}
-		}
+       }
+    }
   },
   "required": ["_id", "firstname", "role", "gender", "privacy"],
   "additionalProperties": false
