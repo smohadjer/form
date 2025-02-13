@@ -5,15 +5,25 @@ Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
   return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 
-export function addSubmitListener($form, $profile) {
+export function addEventListeners($form, $profile) {
   $form.addEventListener('submit', async (event) => {
     event.preventDefault();
+
     const data = new FormData(event.target);
+    // remove empty fields
+    for (const [key, value] of Array.from(data.entries())) {
+      if (value.length === 0) {
+        data.delete(key)
+      }
+    }
+
+    for (const [key, value] of data.entries()) {
+      console.log(key, value);
+    }
     const json = JSON.stringify(Object.fromEntries(data));
     const schema = await fetchJson('/json/schema.json');
 
     if (!event.target.classList.contains('no-validation')) {
-      console.log('starting validation...');
       if (!validateData(event.target, Object.fromEntries(data), schema)) {
         return;
       }
@@ -33,7 +43,7 @@ export function addSubmitListener($form, $profile) {
       if (json.error) {
         displayErrors($form, json.error);
       } else {
-        resetValidation($form.querySelectorAll('input'));
+        resetValidation($form.querySelectorAll('.row'));
         $profile.classList.add('loading');
 
         // using a delay so user notices profile update
@@ -53,23 +63,36 @@ export async function renderProfile(dbData, profileElement) {
 }
 
 function displayErrors($form, errors) {
-  resetValidation($form.querySelectorAll('.formfield'));
+  console.log('display errors:', errors);
+  resetValidation($form.querySelectorAll('.row'));
   errors.forEach(error => {
-    const fieldName = error.instancePath.substring(1);
-    const formField = $form.querySelector(`[name="${fieldName}"`);
-    if (formField) {
-      formField.classList.add('error');
-      formField.nextElementSibling.textContent = error.message;
-      formField.nextElementSibling.removeAttribute('hidden');
+    let fieldName;
+    if (error.instancePath.length > 0) {
+      fieldName = error.instancePath.substring(1);
+    } else {
+      if (error.keyword === 'required') {
+        fieldName = error.params.missingProperty
+      }
+    }
+
+    if (fieldName) {
+      const formField = $form.querySelector(`[name="${fieldName}"`);
+      if (formField) {
+        const row = formField.closest('.row');
+        row.classList.add('row--error');
+        row.querySelector('.error').textContent = error.message;
+        row.querySelector('.error').removeAttribute('hidden');
+      }
     }
   });
 }
 
-function resetValidation(fields) {
-  fields.forEach((field) => {
-    if (field) {
-      field.classList.remove('error');
-      field.nextElementSibling.setAttribute('hidden', 'hidden');
+function resetValidation(rows) {
+  rows.forEach(row => {
+    row.classList.remove('row--error');
+    const error = row.querySelector('.error');
+    if (error) {
+      error.setAttribute('hidden', 'hidden');
     }
   });
 }

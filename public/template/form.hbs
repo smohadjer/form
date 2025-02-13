@@ -17,7 +17,7 @@
         </label>
         <div>
           <p class="hint">{{hint}}</p>
-          <input class="formfield" name="{{name}}" placeholder="{{placeholder}}"
+          <input name="{{name}}" placeholder="{{placeholder}}"
           {{#if required}}required{{/if}}
           {{#if value}}value="{{value}}"{{/if}}>
           <p class="error" hidden>{{error}}</p>
@@ -31,8 +31,8 @@
           {{#if required}}*{{/if}}
         </label>
         <div>
-          <select class="formfield" name="{{name}}">
-            <option value="">{{hint}}</option>
+          <select name="{{name}}" {{#if required}}required{{/if}}>
+            <option {{#unless value }}selected{{/unless}} value="">{{hint}}</option>
             {{#each options}}
               <option
                 {{#ifEquals value ../value}}selected{{/ifEquals}}
@@ -61,6 +61,31 @@
         </div>
       </div>
     {{/ifEquals}}
+
+    {{#ifEquals type 'checkbox'}}
+      <div class="row">
+        <label>{{label}}:
+          {{#if required}}*{{/if}}
+        </label>
+        <div>
+          <div>
+            {{#each options}}
+              <input type="checkbox" id="{{value}}" name="{{../name}}" value="{{value}}"
+                {{#ifEquals value ../value}}checked{{/ifEquals}}>
+              <label class="label--radio" for="{{value}}">{{name}}</label>
+            {{/each}}
+          </div>
+          <p class="error" hidden>{{error}}</p>
+        </div>
+      </div>
+    {{/ifEquals}}
   {{/each}}
-  <button>Submit</button>
+  <div class="row">
+    <label></label>
+    <div>
+      <button type="submit">Submit</button>
+      <button type="button" id="populate">Populate</button>
+      <button type="button" id="reset">Clear</button>
+    </div>
+  </div>
 </form>

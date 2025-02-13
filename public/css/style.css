@@ -54,10 +54,6 @@ label.label--radio {
   min-width: unset;
 }
 
-button {
-  margin-left: 120px;
-}
-
 .profile {
   background: #ddd;
   padding: 1em;
@@ -85,13 +81,14 @@ input {
 }
 
 @media (min-width: 768px) {
-  input:not([type="radio"]) {
+  input:not([type="radio"]):not([type="checkbox"]) {
     min-width: 200px;
     font-size: 14px;
   }
 }
 
-input.error {
+.row--error input:not([type="radio"]),
+.row--error select {
   border: solid 1px red;
 }
 

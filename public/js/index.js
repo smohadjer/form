@@ -1,5 +1,5 @@
 import {
-  addSubmitListener,
+  addEventListeners,
   fetchJson,
   renderForm,
   renderProfile
@@ -11,31 +11,33 @@ async function init() {
   const $profile = document.querySelector('#profile');
 
   // add submit handler to the form
-  addSubmitListener($form, $profile);
+  addEventListeners($form, $profile);
 
   const formData = await fetchJson('./json/form.json');
-  console.log({formData})
-
   // adding empty form to the page
   renderForm(formData, $form);
 
+  $form.addEventListener('click', (event) => {
+    // reset form
+    if (event.target.getAttribute('id') === 'reset') {
+      renderForm(formData, $form);
+    }
+
+    // populate form
+    if (event.target.getAttribute('id') === 'populate') {
+      const serverData = structuredClone(formData);
+      serverData.fields.map((item) => {
+        const valueFromDB = userData[0][item.name];
+        item.value = valueFromDB;
+        return item;
+      });
+      renderForm(serverData, $form);
+    }
+  });
+
   // get user's data from database and display it on page
   const userData = await fetchJson('/api/profile');
-  console.log('userdata:', userData[0]);
   renderProfile(userData, $profile);
-
-  // populate form with user data
-  const fields = formData.fields.map((item) => {
-    const valueFromDB = userData[0][item.name];
-    item.value = valueFromDB;
-    return item;
-  });
-  const serverData = {
-    form: {...formData.form},
-    fields: fields
-  };
-  console.log(serverData);
-  renderForm(serverData, $form);
 }
 
 init();

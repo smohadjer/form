@@ -13,7 +13,6 @@ export default function validate(json, schema) {
   const validator = ajv.compile(schema);
   const valid = validator(json);
   if (!valid) {
-    console.log(validator.errors)
     return validator.errors;
   }
 }

@@ -2,9 +2,12 @@ POST http://localhost:3000/api/profile
 Content-Type: application/json
 
 {
+  "_id": "6564e8c85bcb227a610115e5",
   "firstname": "Sam",
-  "lastname": "test",
-  "age": 52
+  "lastname": "Altman",
+  "age": 30,
+  "gender": "male",
+  "role": "Designer"
 }
 
 ###

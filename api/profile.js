@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
 import { ObjectId } from 'mongodb';
-import validator from './validator.js';
+import validator from './_validator.js';
 
 dotenv.config();
 
@@ -9,6 +9,7 @@ const client = new MongoClient(process.env.db_uri);
 
 async function updateDB(collection, data) {
   const userId = data._id;
+  console.log(userId);
   const query = { _id: ObjectId.createFromHexString(userId) };
 
   // removing _id property as this field can't be overwritten in db

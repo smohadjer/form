@@ -7,10 +7,8 @@
     "firstname": {
       "type": "string",
        "pattern": "^([^0-9]*)$",
-       "minLength": 1,
        "errorMessage": {
-          "pattern": "Use only letters!",
-          "minLength": "This is a required field!"
+          "pattern": "Use only letters!"
        }
     },
     "lastname": {
@@ -30,12 +28,23 @@
      	}
     },
 		"gender": {
-      "type": "string"
+      "enum": ["male", "female"],
+      "errorMessage": {
+        "enum": "Wrong value",
+        "required": "This is a required field!"
+     	}
 		},
 		"role": {
       "type": "string"
+		},
+		"privacy": {
+      "enum": ["agree"],
+      "errorMessage": {
+        "enum": "You should agree to privacy policy.",
+        "required": "This is a required field!"
+     	}
 		}
   },
-  "required": ["_id", "firstname", "role"],
+  "required": ["_id", "firstname", "role", "gender", "privacy"],
   "additionalProperties": false
 }

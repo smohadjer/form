@@ -9,7 +9,7 @@
     {
       "name": "_id",
       "type": "hidden",
-      "value": null
+      "value": "6564e8c85bcb227a610115e5"
     },
     {
       "name": "firstname",
@@ -40,6 +40,7 @@
       "name": "gender",
       "label": "Gender",
       "type": "radio",
+      "required": true,
       "options": [
         {"name": "Male", "value": "male"},
         {"name": "Female", "value": "female"}
@@ -56,6 +57,15 @@
       ],
       "type": "select",
       "required": true,
+      "value": null
+    },
+    {
+      "name": "privacy",
+      "label": "Privacy ",
+      "options": [
+        {"name": "I agree to privacy policy", "value": "agree"}
+      ],
+      "type": "checkbox",
       "value": null
     }
   ]
